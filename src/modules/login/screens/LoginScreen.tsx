@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 import Button from "../../../shared/buttons/button/Button";
@@ -12,24 +13,37 @@ import {
 } from "../styles/LoginScreen.styles";
 
 const LoginScreen = () => {
-  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value);
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const handleLogin = () => {
-    alert(`${userName}, ${password}`);
+  const handleLogin = async () => {
+    await axios({
+      method: "post",
+      url: "http://localhost:8080/auth",
+      data: {
+        email: email,
+        password: password,
+      },
+    })
+      .then((result) => {
+        alert(`Fez login ${result.data.accessToken}`);
+        return result.data;
+      })
+      .catch(() => {
+        alert("Usuário ou senha inválido");
+      });
   };
 
   return (
     <ContainerLoginScreen>
-      <BackgroundImage src="./background.png" />
       <ContainerLogin>
         <LimitedContainer>
           <SVGLogo />
@@ -37,15 +51,15 @@ const LoginScreen = () => {
             LOGIN
           </TitleLogin>
           <Input
+            title="USUÁRIO"
             margin="32px 0px 0px"
-            title="USUÁRIO:"
-            onChange={handleUserName}
-            value={userName}
+            onChange={handleEmail}
+            value={email}
           />
           <Input
             type="password"
+            title="SENHA"
             margin="32px 0px 0px"
-            title="SENHA:"
             onChange={handlePassword}
             value={password}
           />
@@ -58,6 +72,7 @@ const LoginScreen = () => {
           </Button>
         </LimitedContainer>
       </ContainerLogin>
+      <BackgroundImage src="./background.png" />
     </ContainerLoginScreen>
   );
 };
