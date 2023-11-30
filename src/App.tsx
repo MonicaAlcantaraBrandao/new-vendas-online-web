@@ -1,5 +1,7 @@
+import LoginScreen from "./modules/login";
+
 function App() {
-  return <div>Pagina Login</div>;
+  return <LoginScreen />;
 }
 
 export default App;
