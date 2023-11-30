@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Button from "../../../shared/buttons/button/Button";
 import SVGLogo from "../../../shared/icons/SVGLogo";
 import Input from "../../../shared/inputs/input/input";
@@ -10,25 +12,54 @@ import {
 } from "../styles/LoginScreen.styles";
 
 const LoginScreen = () => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value);
+  };
+
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const handleLogin = () => {
+    alert(`${userName}, ${password}`);
+  };
+
   return (
-    <div>
-      <ContainerLoginScreen>
-        <BackgroundImage src="./background.png" />
-        <ContainerLogin>
-          <LimitedContainer>
-            <TitleLogin level={2} type="secondary">
-              LOGIN
-            </TitleLogin>
-            <SVGLogo />
-            <Input title="USUÁRIO:" />
-            <Input title="SENHA:" />
-            <Button type="primary" margin="64px 0px 16px 0px">
-              ENTRAR
-            </Button>
-          </LimitedContainer>
-        </ContainerLogin>
-      </ContainerLoginScreen>
-    </div>
+    <ContainerLoginScreen>
+      <BackgroundImage src="./background.png" />
+      <ContainerLogin>
+        <LimitedContainer>
+          <SVGLogo />
+          <TitleLogin level={2} type="secondary">
+            LOGIN
+          </TitleLogin>
+          <Input
+            margin="32px 0px 0px"
+            title="USUÁRIO:"
+            onChange={handleUserName}
+            value={userName}
+          />
+          <Input
+            type="password"
+            margin="32px 0px 0px"
+            title="SENHA:"
+            onChange={handlePassword}
+            value={password}
+          />
+          <Button
+            type="primary"
+            margin="64px 0px 16px 0px"
+            onClick={handleLogin}
+          >
+            ENTRAR
+          </Button>
+        </LimitedContainer>
+      </ContainerLogin>
+    </ContainerLoginScreen>
   );
 };
+
 export default LoginScreen;
