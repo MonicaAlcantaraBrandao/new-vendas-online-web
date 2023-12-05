@@ -34,7 +34,7 @@ export const useRequests = () => {
         return result.data;
       })
       .catch(() => {
-        alert("Erro");
+        alert("Usuário ou senha incorretos");
       });
 
     setLoading(false);

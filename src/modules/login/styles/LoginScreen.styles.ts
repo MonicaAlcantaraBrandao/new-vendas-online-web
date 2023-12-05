@@ -1,13 +1,13 @@
 import { Typography } from "antd";
+import styled from "styled-components";
 
 const { Title } = Typography;
-
-import styled from "styled-components";
 
 export const ContainerLoginScreen = styled.div`
   width: 100%;
   display: flex;
   justify-content: right;
+  /* position: absolute; */
 `;
 
 export const BackgroundImage = styled.img`
