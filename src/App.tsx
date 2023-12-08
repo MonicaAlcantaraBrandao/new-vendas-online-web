@@ -1,6 +1,7 @@
 import type { Router as RemixRouter } from "@remix-run/router";
 import { createBrowserRouter, RouteObject, RouterProvider } from "react-router-dom";
 
+import { categoryScreens } from "./modules/category/routes";
 import { firstScreenRoutes } from "./modules/firstScreen/routes";
 import { loginRoutes } from "./modules/login/routes";
 import { productScreens } from "./modules/product/routes";
@@ -13,7 +14,11 @@ function App() {
   const { user, setUser } = useGlobalContext();
 
   const routes: RouteObject[] = [...loginRoutes];
-  const routesLoggedIn: RouteObject[] = [...productScreens, ...firstScreenRoutes].map((route) => ({
+  const routesLoggedIn: RouteObject[] = [
+    ...productScreens,
+    ...categoryScreens,
+    ...firstScreenRoutes,
+  ].map((route) => ({
     ...route,
     loader: () => verifyLoggedIn(setUser, user),
   }));

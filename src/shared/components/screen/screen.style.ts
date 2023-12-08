@@ -5,4 +5,5 @@ export const ScreenContainer = styled.div`
   margin: 32px;
   width: calc(100% - 368px);
   margin-left: auto;
+  background-color: white;
 `;
