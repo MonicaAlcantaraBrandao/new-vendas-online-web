@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { AuthType } from "../../modules/login/types/AuthType";
-import { ProductRoutesEnum } from "../../modules/product/routes";
 import { ERROR_INVALID_PASSWORD } from "../constants/errosStatus";
 import { URL_AUTH } from "../constants/urls";
 import { setAuthorizationToken } from "../functions/connection/auth";
@@ -14,7 +12,7 @@ import { useGlobalContext } from "./useGlobalContext";
 
 export const useRequests = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+
   const { setNotification, setUser } = useGlobalContext();
 
   const request = async <T>(
@@ -49,7 +47,8 @@ export const useRequests = () => {
       .then((result) => {
         setUser(result.user);
         setAuthorizationToken(result.accessToken);
-        navigate(ProductRoutesEnum.PRODUCT);
+        location.href = "/";
+
         return result;
       })
       .catch(() => {

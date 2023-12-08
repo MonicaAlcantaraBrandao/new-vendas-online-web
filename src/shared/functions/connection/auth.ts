@@ -31,3 +31,8 @@ export const verifyLoggedIn = async (setUser: (user: UserType) => void, user?: U
   }
   return null;
 };
+
+export const logout = () => {
+  unsetAuthorizationToken();
+  location.href = "/login";
+};
