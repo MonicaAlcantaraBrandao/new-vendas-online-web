@@ -2,7 +2,7 @@ import { Modal } from "antd";
 import { useState } from "react";
 
 import { logout } from "../../functions/connection/auth";
-import { HeaderTestIdEnum } from "./__tests__/headerTestIdEnum";
+import { HeaderTestIdEnum } from "./enum/headerTestIdEnum";
 import { HeaderContainer, LogoExit } from "./header.style";
 
 const Header = () => {
