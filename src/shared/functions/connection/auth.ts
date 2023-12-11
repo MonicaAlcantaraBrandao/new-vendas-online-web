@@ -1,3 +1,7 @@
+import { NavigateFunction, redirect } from "react-router-dom";
+
+import { LoginRoutesEnum } from "../../../modules/login/routes";
+import { UserTokenType } from "../../../modules/login/types/UserTokenType";
 import { UserType } from "../../../modules/login/types/UserType";
 import { AUTHORIZATION_KEY } from "../../constants/authorizationConstants";
 import { URL_USER } from "../../constants/urls";
@@ -14,25 +18,34 @@ export const setAuthorizationToken = (token?: string) => {
 
 export const getAuthorizationToken = () => getItemStorage(AUTHORIZATION_KEY);
 
-export const verifyLoggedIn = async (setUser: (user: UserType) => void, user?: UserType) => {
+export const getUserInfoByToken = (): UserTokenType | undefined => {
+  const token = getAuthorizationToken();
+  const tokenSplited = token?.split(".");
+
+  if (tokenSplited && tokenSplited.length > 1) {
+    return JSON.parse(window.atob(tokenSplited[1]));
+  }
+
+  return undefined;
+};
+
+export const verifyLoggedIn = async () => {
   const token = getAuthorizationToken();
   if (!token) {
-    location.href = "/login";
+    return redirect(LoginRoutesEnum.LOGIN);
   }
+  const user = await connectionAPIGet<UserType>(URL_USER).catch(() => {
+    unsetAuthorizationToken();
+  });
+
   if (!user) {
-    await connectionAPIGet<UserType>(URL_USER)
-      .then((userReturn) => {
-        setUser(userReturn);
-      })
-      .catch(() => {
-        unsetAuthorizationToken();
-        location.href = "/login";
-      });
+    return redirect(LoginRoutesEnum.LOGIN);
   }
+
   return null;
 };
 
-export const logout = () => {
+export const logout = (navigate: NavigateFunction) => {
   unsetAuthorizationToken();
-  location.href = "/login";
+  navigate(LoginRoutesEnum.LOGIN);
 };
