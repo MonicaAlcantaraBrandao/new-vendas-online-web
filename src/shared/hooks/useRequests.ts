@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { NavigateFunction } from "react-router-dom";
 
+import { FirstScreenRoutesEnum } from "../../modules/firstScreen/routes";
 import { AuthType } from "../../modules/login/types/AuthType";
 import { useGlobalReducer } from "../../store/reducers/globalReducer/useGlobalReducer";
 import { ERROR_INVALID_PASSWORD } from "../constants/errosStatus";
@@ -12,7 +14,6 @@ import ConnectionAPI, {
 
 export const useRequests = () => {
   const [loading, setLoading] = useState(false);
-
   const { setNotification, setUser } = useGlobalReducer();
 
   const request = async <T>(
@@ -40,15 +41,14 @@ export const useRequests = () => {
     return returnObject;
   };
 
-  const authRequest = async (body: unknown): Promise<void> => {
+  const authRequest = async (navigate: NavigateFunction, body: unknown): Promise<void> => {
     setLoading(true);
 
     await connectionAPIPost<AuthType>(URL_AUTH, body)
       .then((result) => {
         setUser(result.user);
         setAuthorizationToken(result.accessToken);
-        location.href = "/";
-
+        navigate(FirstScreenRoutesEnum.FIRST_SCREEN);
         return result;
       })
       .catch(() => {
